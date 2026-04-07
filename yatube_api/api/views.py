@@ -61,9 +61,9 @@ class FollowViewSet(viewsets.ModelViewSet):
     search_fields = ('following__username',)
 
     def get_queryset(self):
-        """Только подписки текущего пользователя."""
+        """Получаем подписки текущего пользователя."""
         return Follow.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        """Подписка от текущего пользователя."""
+        """Создаем подписку от текущего пользователя."""
         serializer.save(user=self.request.user)
