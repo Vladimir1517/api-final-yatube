@@ -117,7 +117,7 @@ POST /api/v1/jwt/verify/
 
 ```json
 {
-  "text": "Мой первый пост",
+  "text": "Мой новый пост",
   "group": 1
 }
 ```
@@ -127,7 +127,7 @@ POST /api/v1/jwt/verify/
 ```json
 {
   "id": 1,
-  "text": "Мой первый пост",
+  "text": "Мой новый пост",
   "author": "username",
   "pub_date": "2025-01-01T12:00:00Z"
 }
