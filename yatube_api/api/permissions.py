@@ -18,7 +18,7 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         """Разграничение доступа на уровне объекта.
-        
+
         Доступ к объектам по безопасным запросам предоставляется всем,
         небезопасные только автору объекта.
         """
