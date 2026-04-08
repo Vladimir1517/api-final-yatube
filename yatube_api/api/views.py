@@ -1,6 +1,7 @@
 """Вьюсеты для приложения api."""
 from django.shortcuts import get_object_or_404
 from rest_framework import filters, viewsets
+from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.permissions import AllowAny
 
 from posts.models import Follow, Group, Post
@@ -53,7 +54,7 @@ class CommentViewSet(BaseViewSet):
         serializer.save(author=self.request.user, post=self.__get_post())
 
 
-class FollowViewSet(viewsets.ModelViewSet):
+class FollowViewSet(CreateModelMixin, ListModelMixin, viewsets.GenericViewSet):
     """Вьюсет для модели Follow."""
 
     serializer_class = FollowSerializer
@@ -62,7 +63,7 @@ class FollowViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Получаем подписки текущего пользователя."""
-        return Follow.objects.filter(user=self.request.user)
+        return self.request.user.follows.all()
 
     def perform_create(self, serializer):
         """Создаем подписку от текущего пользователя."""

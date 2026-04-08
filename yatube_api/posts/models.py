@@ -1,6 +1,7 @@
 """Модели приложения posts."""
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models import Q, F
 
 User = get_user_model()
 
@@ -97,13 +98,13 @@ class Follow(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='follower',
+        related_name='follows',
         verbose_name='Подписчик'
     )
     following = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='following',
+        related_name='followed_by',
         verbose_name='Автор'
     )
 
@@ -112,8 +113,12 @@ class Follow(models.Model):
 
         constraints = [
             models.UniqueConstraint(
-                fields=['user', 'following'],
+                fields=('user', 'following'),
                 name='unique_user_following'
+            ),
+            models.CheckConstraint(
+                check=~Q(user=F('following')),
+                name='user_not_following_self'
             )
         ]
         verbose_name = 'Подписка'
